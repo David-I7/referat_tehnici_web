@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Gradient</title>
+    <style>
+      body {
+        overflow: hidden;
+        margin: 0;
+      }
+    </style>
+  </head>
+  <body>
+    <canvas id="canvas"></canvas>
+    <script>
+      const canvas = document.getElementById("canvas");
+      const ctx = canvas.getContext("2d");
+      canvas.width = canvas.offsetWidth = window.innerWidth;
+      canvas.height = canvas.offsetHeight = window.innerHeight;
+
+      const grad = ctx.createLinearGradient(0, 0, window.innerWidth, 0);
+      grad.addColorStop(0, "white");
+      grad.addColorStop(0.5, "red");
+      grad.addColorStop(1, "black");
+
+      ctx.fillStyle = grad;
+      ctx.fillRect(0, 0, window.innerWidth, window.innerHeight);
+    </script>
+  </body>
+</html>

@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Triunghi</title>
+    <style>
+      body {
+        overflow: hidden;
+      }
+    </style>
+  </head>
+  <body>
+    <canvas id="canvas"></canvas>
+    <script>
+      const canvas = document.getElementById("canvas");
+      const ctx = canvas.getContext("2d");
+      canvas.width = canvas.offsetWidth = window.innerWidth;
+      canvas.height = canvas.offsetHeight = window.innerHeight;
+      ctx.fillStyle = "#ccddff";
+      ctx.beginPath();
+      ctx.moveTo(50, 20);
+      ctx.lineTo(200, 50);
+      ctx.lineTo(150, 80);
+      ctx.closePath();
+      ctx.fill();
+      ctx.strokeStyle = "red";
+      ctx.lineWidth = 5;
+      ctx.stroke();
+    </script>
+  </body>
+</html>
