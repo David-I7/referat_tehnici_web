@@ -15,6 +15,8 @@ export class ResourceManager {
                 arrows: "../assets/graphics/arrows.png",
                 hearts: "../assets/graphics/hearts.png",
                 particle: "../assets/graphics/particle.png",
+                "audio-on": "../assets/graphics/audio-on.png",
+                "audio-off": "../assets/graphics/audio-off.png",
             };
             ResourceManager.graphics = {
                 background: new Image(),
@@ -22,6 +24,8 @@ export class ResourceManager {
                 arrows: new Image(),
                 hearts: new Image(),
                 particle: new Image(),
+                "audio-off": new Image(),
+                "audio-on": new Image(),
             };
             const graphicsPromises = [];
             Object.entries(ResourceManager.graphics).map(([key, val]) => {

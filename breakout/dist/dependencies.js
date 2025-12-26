@@ -8,3 +8,5 @@ export * from "./state/stateMachine.js";
 export * from "./config/gameConfig.js";
 // input
 export * from "./input/inputManager.js";
+// audio
+export * from "./audioManager.js";

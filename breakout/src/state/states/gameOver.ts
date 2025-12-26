@@ -1,5 +1,9 @@
 import { gGameConfig } from "../../config/gameConfig.js";
-import { gInputManager, gStateMachine } from "../../dependencies.js";
+import {
+  AudioManager,
+  gInputManager,
+  gStateMachine,
+} from "../../dependencies.js";
 import { LevelState } from "../../entities/levelState.js";
 import { HighScoreManger } from "../../highScoreManger.js";
 import State from "./state.js";
@@ -22,12 +26,14 @@ export class GameOverState implements State {
       }
 
       if (isHighScore) {
+        AudioManager.play("high-score");
         gStateMachine.change("setHighScore", {
           ...this.levelState,
           highScoreIndex,
         });
         return;
       } else {
+        AudioManager.play("confirm");
         gStateMachine.change("start");
       }
     }
@@ -39,7 +45,7 @@ export class GameOverState implements State {
     ctx.fillText(
       `GAME OVER`,
       gGameConfig.viewport.width / 2,
-      gGameConfig.viewport.height / 4
+      gGameConfig.viewport.height / 3
     );
     ctx.font = gGameConfig.font.family.primary.medium;
     ctx.fillText(
@@ -47,10 +53,11 @@ export class GameOverState implements State {
       gGameConfig.viewport.width / 2,
       (gGameConfig.viewport.height / 4) * 2
     );
+    ctx.font = gGameConfig.font.family.primary.small;
     ctx.fillText(
-      `Press Enter`,
+      `(Press Enter to continue!)`,
       gGameConfig.viewport.width / 2,
-      (gGameConfig.viewport.height / 4) * 2 + 64
+      gGameConfig.viewport.height - 64
     );
   }
   enter(enterParams: LevelState): void {

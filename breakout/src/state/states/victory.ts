@@ -1,5 +1,9 @@
 import { gGameConfig } from "../../config/gameConfig.js";
-import { gInputManager, gStateMachine } from "../../dependencies.js";
+import {
+  AudioManager,
+  gInputManager,
+  gStateMachine,
+} from "../../dependencies.js";
 import { LevelState } from "../../entities/levelState.js";
 import { LevelMaker } from "../../levelMaker.js";
 import State from "./state.js";
@@ -8,6 +12,7 @@ export class VictoryState implements State {
   levelState: LevelState | null = null;
   update(dt: number): void {
     if (gInputManager.keyboard.wasPressed("Enter")) {
+      AudioManager.play("confirm");
       gStateMachine.change("serve", {
         ...this.levelState,
         level: this.levelState!.level + 1,
@@ -24,7 +29,7 @@ export class VictoryState implements State {
     ctx.fillText(
       `Level ${this.levelState!.level} Complete!`,
       gGameConfig.viewport.width / 2,
-      gGameConfig.viewport.height / 4
+      gGameConfig.viewport.height / 3
     );
     ctx.font = gGameConfig.font.family.primary.medium;
     ctx.fillText(

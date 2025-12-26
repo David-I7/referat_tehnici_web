@@ -1,10 +1,11 @@
-import { gGameConfig, gInputManager, gStateMachine, } from "../../dependencies.js";
+import { AudioManager, gGameConfig, gInputManager, gStateMachine, } from "../../dependencies.js";
 import { HighScoreManger } from "../../highScoreManger.js";
 export class HighScoreState {
     highScores = [];
     maxScoreLength = 0;
     update(dt) {
         if (gInputManager.keyboard.wasPressed("Escape")) {
+            AudioManager.play("wall-hit");
             gStateMachine.change("start");
         }
     }

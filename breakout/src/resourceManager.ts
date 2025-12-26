@@ -1,4 +1,4 @@
-type Sounds =
+export type Sounds =
   | "paddle-hit"
   | "score"
   | "wall-hit"
@@ -13,7 +13,14 @@ type Sounds =
   | "high-score"
   | "pause"
   | "music";
-type Graphics = "background" | "main" | "arrows" | "hearts" | "particle";
+type Graphics =
+  | "background"
+  | "main"
+  | "arrows"
+  | "hearts"
+  | "particle"
+  | "audio-on"
+  | "audio-off";
 type Frames = "arrows" | "paddles" | "balls" | "bricks" | "hearts";
 
 export class ResourceManager {
@@ -44,6 +51,8 @@ export class ResourceManager {
         arrows: "../assets/graphics/arrows.png",
         hearts: "../assets/graphics/hearts.png",
         particle: "../assets/graphics/particle.png",
+        "audio-on": "../assets/graphics/audio-on.png",
+        "audio-off": "../assets/graphics/audio-off.png",
       };
       ResourceManager.graphics = {
         background: new Image(),
@@ -51,6 +60,8 @@ export class ResourceManager {
         arrows: new Image(),
         hearts: new Image(),
         particle: new Image(),
+        "audio-off": new Image(),
+        "audio-on": new Image(),
       };
 
       const graphicsPromises: Promise<HTMLImageElement>[] = [];

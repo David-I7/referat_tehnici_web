@@ -1,6 +1,7 @@
 import State from "./state.js";
 import { gGameConfig } from "../../config/gameConfig.js";
 import {
+  AudioManager,
   gInputManager,
   gStateMachine,
   ResourceManager,
@@ -42,17 +43,19 @@ export class StartState implements State {
   update(dt: number): void {
     if (gInputManager.keyboard.wasPressed("ArrowDown")) {
       this.highlighted = (this.highlighted + 1) % this.options;
-      ResourceManager.sounds.select.play();
+      AudioManager.play("select");
     } else if (gInputManager.keyboard.wasPressed("ArrowUp")) {
       this.highlighted =
         this.highlighted == 0 ? this.options - 1 : this.highlighted - 1;
-      ResourceManager.sounds.select.play();
+      AudioManager.play("select");
     }
 
     if (gInputManager.keyboard.wasPressed("Enter")) {
       if (this.highlighted == 0) {
+        AudioManager.play("confirm");
         gStateMachine.change("paddleSelect");
       } else {
+        AudioManager.play("confirm");
         gStateMachine.change("highScore");
       }
     }

@@ -1,4 +1,5 @@
 import {
+  AudioManager,
   gGameConfig,
   gInputManager,
   gStateMachine,
@@ -18,23 +19,22 @@ export class PaddleSelect implements State {
     if (gInputManager.keyboard.wasPressed("ArrowRight")) {
       if (this.paddleSkin < this.maxPaddleSkin - 1) {
         ++this.paddleSkin;
-        ResourceManager.sounds.select.play();
+        AudioManager.play("select");
       } else {
-        ResourceManager.sounds["no-select"].play();
+        AudioManager.play("no-select");
       }
     } else if (gInputManager.keyboard.wasPressed("ArrowLeft")) {
       if (this.paddleSkin != 0) {
         --this.paddleSkin;
-        ResourceManager.sounds.select.play();
+        AudioManager.play("select");
       } else {
-        ResourceManager.sounds["no-select"].play();
+        AudioManager.play("no-select");
       }
     } else if (gInputManager.keyboard.wasPressed("Escape")) {
+      AudioManager.play("wall-hit");
       gStateMachine.change("start");
-    }
-
-    if (gInputManager.keyboard.wasPressed("Enter")) {
-      ResourceManager.sounds.confirm.play();
+    } else if (gInputManager.keyboard.wasPressed("Enter")) {
+      AudioManager.play("confirm");
       const levelState: LevelState = {
         ball: Ball.empty(),
         hearts: 3,

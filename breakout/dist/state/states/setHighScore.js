@@ -1,5 +1,5 @@
 import { gGameConfig } from "../../config/gameConfig.js";
-import { gInputManager, gStateMachine, ResourceManager, } from "../../dependencies.js";
+import { AudioManager, gInputManager, gStateMachine, } from "../../dependencies.js";
 import { HighScoreManger } from "../../highScoreManger.js";
 export class SetHighScore {
     levelState = null;
@@ -11,6 +11,7 @@ export class SetHighScore {
                 name: String.fromCharCode(...this.name),
                 score: this.levelState.score.toString(),
             }, this.levelState.highScoreIndex);
+            AudioManager.play("confirm");
             gStateMachine.change("highScore");
             return;
         }
@@ -21,7 +22,7 @@ export class SetHighScore {
             else {
                 --this.name[this.highlighted];
             }
-            ResourceManager.sounds.select.play();
+            AudioManager.play("select");
         }
         else if (gInputManager.keyboard.wasPressed("ArrowDown")) {
             if (this.name[this.highlighted] === 90) {
@@ -30,7 +31,7 @@ export class SetHighScore {
             else {
                 ++this.name[this.highlighted];
             }
-            ResourceManager.sounds.select.play();
+            AudioManager.play("select");
         }
         else if (gInputManager.keyboard.wasPressed("ArrowLeft")) {
             if (this.highlighted === 0) {
@@ -39,7 +40,7 @@ export class SetHighScore {
             else {
                 --this.highlighted;
             }
-            ResourceManager.sounds.select.play();
+            AudioManager.play("select");
         }
         else if (gInputManager.keyboard.wasPressed("ArrowRight")) {
             if (this.highlighted === 2) {
@@ -48,7 +49,7 @@ export class SetHighScore {
             else {
                 ++this.highlighted;
             }
-            ResourceManager.sounds.select.play();
+            AudioManager.play("select");
         }
     }
     draw(ctx) {
@@ -64,12 +65,16 @@ export class SetHighScore {
                 this.highlighted === i
                     ? gGameConfig.font.color.secondary
                     : (ctx.fillStyle = gGameConfig.font.color.primary);
-            ctx.fillText(`${char}`, gGameConfig.viewport.width / 2 - 75 + 75 * i, gGameConfig.viewport.height / 2);
+            ctx.fillText(`${char}`, gGameConfig.viewport.width / 2 - 100 + 75 * i, gGameConfig.viewport.height / 2);
         });
         ctx.font = gGameConfig.font.family.primary.medium;
         ctx.fillStyle = gGameConfig.font.color.primary;
         ctx.textAlign = "center";
-        ctx.fillText(`Press Enter to Confirm!`, gGameConfig.viewport.width / 2, (gGameConfig.viewport.height / 3) * 2);
+        ctx.fillText(`Enter a name!`, gGameConfig.viewport.width / 2, gGameConfig.viewport.height / 2 - 128);
+        ctx.font = gGameConfig.font.family.primary.small;
+        ctx.fillStyle = gGameConfig.font.color.primary;
+        ctx.textAlign = "center";
+        ctx.fillText(`(Press Enter to Confirm!)`, gGameConfig.viewport.width / 2, gGameConfig.viewport.height - 64);
     }
     enter(enterParams) {
         this.levelState = enterParams;

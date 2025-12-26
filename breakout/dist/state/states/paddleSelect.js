@@ -1,4 +1,4 @@
-import { gGameConfig, gInputManager, gStateMachine, ResourceManager, } from "../../dependencies.js";
+import { AudioManager, gGameConfig, gInputManager, gStateMachine, ResourceManager, } from "../../dependencies.js";
 import { Ball } from "../../entities/ball.js";
 import { Paddle } from "../../entities/paddle.js";
 import { LevelMaker } from "../../levelMaker.js";
@@ -10,26 +10,27 @@ export class PaddleSelect {
         if (gInputManager.keyboard.wasPressed("ArrowRight")) {
             if (this.paddleSkin < this.maxPaddleSkin - 1) {
                 ++this.paddleSkin;
-                ResourceManager.sounds.select.play();
+                AudioManager.play("select");
             }
             else {
-                ResourceManager.sounds["no-select"].play();
+                AudioManager.play("no-select");
             }
         }
         else if (gInputManager.keyboard.wasPressed("ArrowLeft")) {
             if (this.paddleSkin != 0) {
                 --this.paddleSkin;
-                ResourceManager.sounds.select.play();
+                AudioManager.play("select");
             }
             else {
-                ResourceManager.sounds["no-select"].play();
+                AudioManager.play("no-select");
             }
         }
         else if (gInputManager.keyboard.wasPressed("Escape")) {
+            AudioManager.play("wall-hit");
             gStateMachine.change("start");
         }
-        if (gInputManager.keyboard.wasPressed("Enter")) {
-            ResourceManager.sounds.confirm.play();
+        else if (gInputManager.keyboard.wasPressed("Enter")) {
+            AudioManager.play("confirm");
             const levelState = {
                 ball: Ball.empty(),
                 hearts: 3,

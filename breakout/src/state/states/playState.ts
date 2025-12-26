@@ -1,13 +1,13 @@
 import {
   AABBColides,
+  AudioManager,
   gStateMachine,
-  ResourceManager,
 } from "../../dependencies.js";
 import { gGameConfig } from "../../config/gameConfig.js";
 import { LevelState } from "../../entities/levelState.js";
 import { randInt } from "../../utils/random.js";
 import State from "./state.js";
-import { drawScore } from "../../utils/game.js";
+import { drawStats } from "../../utils/game.js";
 
 export class PlayState implements State {
   levelState: LevelState | null = null;
@@ -21,9 +21,10 @@ export class PlayState implements State {
     this.levelState?.paddle.draw(ctx);
     this.levelState?.ball.draw(ctx);
     this.levelState?.bricks.forEach((brick) => {
-      if (brick.inPlay) brick.draw(ctx);
+      if (brick.inPlay || brick.particleSystem.particleStates.length)
+        brick.draw(ctx);
     });
-    drawScore(ctx, this.levelState!.score);
+    drawStats(ctx, this.levelState!.score, this.levelState!.hearts);
   }
   update(dt: number): void {
     const ls = this.levelState!;
@@ -47,10 +48,11 @@ export class PlayState implements State {
         }
       }
 
-      ResourceManager.sounds["paddle-hit"].play();
+      AudioManager.play("paddle-hit");
     }
 
     ls.bricks.forEach((brick) => {
+      brick.update(dt);
       if (brick.inPlay && AABBColides(ball, brick)) {
         ls.score = ls.score + ((brick.tier + 1) * 200 + (brick.color + 1) * 25);
 
@@ -61,11 +63,11 @@ export class PlayState implements State {
 
           ls.recoverPoints = Math.min(100000, ls.recoverPoints * 2);
 
-          ResourceManager.sounds.recover.play();
+          AudioManager.play("recover");
         }
 
         if (this.checkVictory()) {
-          ResourceManager.sounds.victory.play();
+          AudioManager.play("victory");
           gStateMachine.change("victory", this.levelState!);
           return;
         }
@@ -93,7 +95,7 @@ export class PlayState implements State {
     });
 
     if (ball.y + ball.height >= gGameConfig.viewport.height) {
-      ResourceManager.sounds.hurt.play();
+      AudioManager.play("hurt");
       --ls.hearts;
 
       if (ls.hearts <= 0) {

@@ -4,7 +4,11 @@ import {
   gStateMachine,
   gGameConfig,
   gInputManager,
+  AudioManager,
 } from "./dependencies.js";
+import { Ball } from "./entities/ball.js";
+import { Paddle } from "./entities/paddle.js";
+import { LevelMaker } from "./levelMaker.js";
 
 window.addEventListener("load", () => {
   const canvas = document.getElementById("canvas1") as HTMLCanvasElement;
@@ -16,9 +20,24 @@ window.addEventListener("load", () => {
   gGameConfig.viewport.dpi = window.devicePixelRatio;
   gGameConfig.viewport.scaler = gGameConfig.viewport.dpi * 2;
 
+  AudioManager.setPosition({
+    x: CANVAS_WIDTH - 48,
+    y: CANVAS_HEIGHT - 48,
+    width: 24,
+    height: 24,
+  });
   const background = ResourceManager.graphics.background;
-  const fps = displayFps("sec", { fillStyle: "white" });
+  const drawFps = displayFps("sec", { fillStyle: "white" });
   gStateMachine.change("start");
+  // gStateMachine.change("pause", {
+  //   ball: Ball.empty(),
+  //   hearts: 3,
+  //   level: 1,
+  //   recoverPoints: 5000,
+  //   score: 100000,
+  //   bricks: LevelMaker.createLevel(1),
+  //   paddle: new Paddle(ResourceManager.frames.paddles[0]),
+  // });
 
   let lastTime = 0;
   function animate(timestamp: number) {
@@ -27,12 +46,13 @@ window.addEventListener("load", () => {
     ctx.clearRect(0, 0, CANVAS_WIDTH, CANVAS_HEIGHT);
 
     ctx.drawImage(background, 0, 0, CANVAS_WIDTH, CANVAS_HEIGHT);
-    fps(dt, ctx);
+    drawFps(dt, ctx);
 
     gStateMachine.update(dt);
     gInputManager.update();
 
     gStateMachine.draw(ctx);
+    AudioManager.draw(ctx);
 
     requestAnimationFrame(animate);
   }

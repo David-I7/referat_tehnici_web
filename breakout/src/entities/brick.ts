@@ -1,13 +1,32 @@
-import { gGameConfig } from "../dependencies.js";
+import { AudioManager } from "../audioManager.js";
+import { gGameConfig } from "../config/gameConfig.js";
 import Animatable from "../interfaces/animatable.js";
 import Drawable from "../interfaces/drawable.js";
 import { ResourceManager } from "../resourceManager.js";
+import { ParticleSystem } from "./particleSystem.js";
+
+export enum BRICK_COLORS {
+  blue = 0,
+  green = 1,
+  red = 2,
+  purple = 3,
+  gold = 4,
+}
+
+export const PALLETE_COLORS = [
+  [99, 155, 255],
+  [106, 190, 47],
+  [217, 87, 99],
+  [215, 123, 186],
+  [251, 242, 54],
+];
 
 export class Brick implements Animatable, Drawable {
   width!: number;
   height!: number;
   image!: ImageBitmap;
   inPlay: boolean = true;
+  particleSystem: ParticleSystem;
 
   constructor(
     public x: number,
@@ -16,6 +35,7 @@ export class Brick implements Animatable, Drawable {
     public tier: number = 0
   ) {
     this._setImage();
+    this.particleSystem = new ParticleSystem(x, y, this.width, this.height);
   }
 
   private _setImage() {
@@ -31,22 +51,28 @@ export class Brick implements Animatable, Drawable {
   }
 
   hit() {
-    ResourceManager.sounds["brick-hit-2"].play();
+    AudioManager.play("brick-hit-2");
+    this.particleSystem.start(this.color);
     --this.color;
     if (this.color < 0) {
       --this.tier;
       this.color = 4;
     }
     if (this.tier < 0) {
-      ResourceManager.sounds["brick-hit-1"].play();
+      AudioManager.play("brick-hit-1");
       this.inPlay = false;
       return;
     }
     this.setImage(this.color, this.tier);
   }
 
-  update(dt: number): void {}
+  update(dt: number): void {
+    this.particleSystem.update(dt);
+  }
   draw(ctx: CanvasRenderingContext2D): void {
-    ctx.drawImage(this.image, this.x, this.y, this.width, this.height);
+    if (this.inPlay) {
+      ctx.drawImage(this.image, this.x, this.y, this.width, this.height);
+    }
+    this.particleSystem.draw(ctx);
   }
 }

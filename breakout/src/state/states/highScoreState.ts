@@ -1,4 +1,5 @@
 import {
+  AudioManager,
   gGameConfig,
   gInputManager,
   gStateMachine,
@@ -12,6 +13,7 @@ export class HighScoreState implements State {
 
   update(dt: number): void {
     if (gInputManager.keyboard.wasPressed("Escape")) {
+      AudioManager.play("wall-hit");
       gStateMachine.change("start");
     }
   }

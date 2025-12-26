@@ -1,5 +1,9 @@
 # Canvas - Aplicatii 2D
 
+## Referat
+
+Referatul ascoiat acestui repository se poate gasi aici: https://docs.google.com/document/d/1wLkYj_eqxtiSVuU-oxsJ497ZRFpYzAGHcQoI_AktbLU/edit?usp=sharing
+
 ## Descriere
 
 Acest proiect conține o colecție de simple exemple simple precum si un joc 2D realizat cu **HTML5 Canvas 2D**, menit să demonstreze conceptele de bază al utilizarii canvas in browser. Exemplele ilustrează modul de utilizare al Canvas API pentru crearea de forme geometrice, animații și aplicații vizuale interactive folosind JavaScript.

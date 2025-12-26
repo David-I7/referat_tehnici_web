@@ -1,7 +1,7 @@
 import { gGameConfig } from "../config/gameConfig.js";
-import { ResourceManager } from "../resourceManager.js";
 import Animatable from "../interfaces/animatable.js";
 import Drawable from "../interfaces/drawable.js";
+import { AudioManager } from "../audioManager.js";
 
 export class Ball implements Drawable, Animatable {
   private static _empty: Ball = new Ball({} as ImageBitmap);
@@ -21,18 +21,18 @@ export class Ball implements Drawable, Animatable {
     if (this.x >= gGameConfig.viewport.width - this.width) {
       this.x = gGameConfig.viewport.width - this.width;
       this.vx *= -1;
-      ResourceManager.sounds["wall-hit"].play();
+      AudioManager.play("wall-hit");
     } else if (this.x <= 0) {
       this.x = 0;
       this.vx *= -1;
-      ResourceManager.sounds["wall-hit"].play();
+      AudioManager.play("wall-hit");
     }
 
     this.y += this.vy * dt;
     if (this.y <= 0) {
       this.y = 0;
       this.vy *= -1;
-      ResourceManager.sounds["wall-hit"].play();
+      AudioManager.play("wall-hit");
     }
   }
   draw(ctx: CanvasRenderingContext2D): void {

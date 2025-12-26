@@ -1,5 +1,5 @@
 import { gGameConfig } from "../../config/gameConfig.js";
-import { gInputManager, gStateMachine } from "../../dependencies.js";
+import { AudioManager, gInputManager, gStateMachine, } from "../../dependencies.js";
 import { HighScoreManger } from "../../highScoreManger.js";
 export class GameOverState {
     levelState = null;
@@ -16,6 +16,7 @@ export class GameOverState {
                 }
             }
             if (isHighScore) {
+                AudioManager.play("high-score");
                 gStateMachine.change("setHighScore", {
                     ...this.levelState,
                     highScoreIndex,
@@ -23,6 +24,7 @@ export class GameOverState {
                 return;
             }
             else {
+                AudioManager.play("confirm");
                 gStateMachine.change("start");
             }
         }
@@ -31,10 +33,11 @@ export class GameOverState {
         ctx.font = gGameConfig.font.family.primary.large;
         ctx.fillStyle = gGameConfig.font.color.primary;
         ctx.textAlign = "center";
-        ctx.fillText(`GAME OVER`, gGameConfig.viewport.width / 2, gGameConfig.viewport.height / 4);
+        ctx.fillText(`GAME OVER`, gGameConfig.viewport.width / 2, gGameConfig.viewport.height / 3);
         ctx.font = gGameConfig.font.family.primary.medium;
         ctx.fillText(`Final Score: ${this.levelState.score}`, gGameConfig.viewport.width / 2, (gGameConfig.viewport.height / 4) * 2);
-        ctx.fillText(`Press Enter`, gGameConfig.viewport.width / 2, (gGameConfig.viewport.height / 4) * 2 + 64);
+        ctx.font = gGameConfig.font.family.primary.small;
+        ctx.fillText(`(Press Enter to continue!)`, gGameConfig.viewport.width / 2, gGameConfig.viewport.height - 64);
     }
     enter(enterParams) {
         this.levelState = enterParams;

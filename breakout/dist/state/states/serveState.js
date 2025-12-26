@@ -1,7 +1,7 @@
 import { gInputManager, gStateMachine } from "../../dependencies.js";
 import { Ball } from "../../entities/ball.js";
 import { ResourceManager } from "../../resourceManager.js";
-import { drawScore } from "../../utils/game.js";
+import { drawStats } from "../../utils/game.js";
 import { randInt } from "../../utils/random.js";
 export class ServerState {
     levelState = null;
@@ -21,10 +21,10 @@ export class ServerState {
             if (brick.inPlay)
                 brick.draw(ctx);
         });
-        drawScore(ctx, this.levelState?.score || 0);
+        drawStats(ctx, this.levelState.score, this.levelState.hearts);
+        for (let i = 0; i < this.levelState.hearts; i++) { }
     }
-    async enter(enterParams) {
-        await ResourceManager.awaitLoad();
+    enter(enterParams) {
         this.levelState = enterParams;
         const balls = ResourceManager.frames.balls;
         const sprite = balls[randInt(0, balls.length - 1)];
