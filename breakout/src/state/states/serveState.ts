@@ -26,8 +26,6 @@ export class ServerState implements State {
       if (brick.inPlay) brick.draw(ctx);
     });
     drawStats(ctx, this.levelState!.score, this.levelState!.hearts);
-
-    for (let i = 0; i < this.levelState!.hearts; i++) {}
   }
   enter(enterParams: LevelState): void {
     this.levelState = enterParams;

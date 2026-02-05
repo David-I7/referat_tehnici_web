@@ -20,7 +20,7 @@ export class ParticleSystem implements Animatable {
     public x: number,
     public y: number,
     public w: number,
-    public h: number
+    public h: number,
   ) {}
 
   draw(ctx: CanvasRenderingContext2D) {
@@ -30,9 +30,9 @@ export class ParticleSystem implements Animatable {
         const rgb = PALLETE_COLORS[state.color];
         ctx.fillStyle = `rgb(${rgb[0]},${rgb[1]},${rgb[2]})`;
         particle.draw(ctx);
-        ctx.globalAlpha = 1;
       });
     });
+    ctx.globalAlpha = 1;
   }
   update(dt: number) {
     for (let i = 0; i < this.particleStates.length; ++i) {
@@ -51,7 +51,6 @@ export class ParticleSystem implements Animatable {
         particle.update(dt);
       });
     }
-    this.particleStates.length ? console.log(this.particleStates) : undefined;
   }
   start(color: BRICK_COLORS) {
     const particleAnimationState: ParticleAnimationState = {
@@ -68,13 +67,13 @@ export class ParticleSystem implements Animatable {
           this.particleRadius,
           randInt(
             Math.floor(this.x - this.offset),
-            Math.floor(this.x + this.w + this.offset)
+            Math.floor(this.x + this.w + this.offset),
           ),
           randInt(
             Math.floor(this.y - this.offset),
-            Math.floor(this.y + this.h + this.offset)
-          )
-        )
+            Math.floor(this.y + this.h + this.offset),
+          ),
+        ),
       );
     }
     this.particleStates.push(particleAnimationState);

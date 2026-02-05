@@ -6,9 +6,6 @@ import {
   gInputManager,
   AudioManager,
 } from "./dependencies.js";
-import { Ball } from "./entities/ball.js";
-import { Paddle } from "./entities/paddle.js";
-import { LevelMaker } from "./levelMaker.js";
 
 window.addEventListener("load", () => {
   const canvas = document.getElementById("canvas1") as HTMLCanvasElement;
@@ -29,15 +26,6 @@ window.addEventListener("load", () => {
   const background = ResourceManager.graphics.background;
   const drawFps = displayFps("sec", { fillStyle: "white" });
   gStateMachine.change("start");
-  // gStateMachine.change("pause", {
-  //   ball: Ball.empty(),
-  //   hearts: 3,
-  //   level: 1,
-  //   recoverPoints: 5000,
-  //   score: 100000,
-  //   bricks: LevelMaker.createLevel(1),
-  //   paddle: new Paddle(ResourceManager.frames.paddles[0]),
-  // });
 
   let lastTime = 0;
   function animate(timestamp: number) {
