@@ -33,10 +33,10 @@ export class PlayState {
                 ball.y = paddle.y - ball.height;
                 ball.vy *= -1;
                 if (ball.x < paddle.x + paddle.width / 2 && paddle.vx < 0) {
-                    ball.vx = -50 + -(6 * paddle.x + paddle.width / 2 - ball.x);
+                    ball.vx = -50 + -6 * (paddle.x + paddle.width / 2 - ball.x);
                 }
                 else if (ball.x > paddle.x + paddle.width / 2 && paddle.vx > 0) {
-                    ball.vx = -50 + 6 * Math.abs(paddle.x + paddle.width / 2 - ball.x);
+                    ball.vx = 50 + 6 * Math.abs(paddle.x + paddle.width / 2 - ball.x);
                 }
             }
             AudioManager.play("paddle-hit");
@@ -44,7 +44,7 @@ export class PlayState {
         ls.bricks.forEach((brick) => {
             brick.update(dt);
             if (brick.inPlay && AABBColides(ball, brick)) {
-                ls.score = ls.score + ((brick.tier + 1) * 200 + (brick.color + 1) * 25);
+                ls.score = ls.score + ((brick.tier + 1) * 100 + (brick.color + 1) * 15);
                 brick.hit();
                 if (ls.score > ls.recoverPoints) {
                     ls.hearts = Math.min(ls.hearts + 1, 3);

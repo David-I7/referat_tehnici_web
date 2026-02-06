@@ -4,7 +4,6 @@ import {
   AudioManager,
   gInputManager,
   gStateMachine,
-  ResourceManager,
 } from "../../dependencies.js";
 
 export class StartState implements State {
@@ -27,7 +26,7 @@ export class StartState implements State {
       ctx.fillText(
         "High Scores",
         gGameConfig.viewport.width / 2,
-        quarter * 3 + 48
+        quarter * 3 + 48,
       );
     } else {
       ctx.fillText("Start", gGameConfig.viewport.width / 2, quarter * 3);
@@ -35,7 +34,7 @@ export class StartState implements State {
       ctx.fillText(
         "High Scores",
         gGameConfig.viewport.width / 2,
-        quarter * 3 + 48
+        quarter * 3 + 48,
       );
     }
   }

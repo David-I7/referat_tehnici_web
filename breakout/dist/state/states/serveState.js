@@ -22,7 +22,6 @@ export class ServerState {
                 brick.draw(ctx);
         });
         drawStats(ctx, this.levelState.score, this.levelState.hearts);
-        for (let i = 0; i < this.levelState.hearts; i++) { }
     }
     enter(enterParams) {
         this.levelState = enterParams;

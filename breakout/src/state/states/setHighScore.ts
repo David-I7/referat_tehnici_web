@@ -3,7 +3,6 @@ import {
   AudioManager,
   gInputManager,
   gStateMachine,
-  ResourceManager,
 } from "../../dependencies.js";
 import { LevelState } from "../../entities/levelState.js";
 import { HighScoreManger } from "../../highScoreManger.js";
@@ -20,7 +19,7 @@ export class SetHighScore implements State {
           name: String.fromCharCode(...this.name),
           score: this.levelState!.score.toString(),
         },
-        this.levelState!.highScoreIndex
+        this.levelState!.highScoreIndex,
       );
       AudioManager.play("confirm");
       gStateMachine.change("highScore");
@@ -62,7 +61,7 @@ export class SetHighScore implements State {
     ctx.fillText(
       `Your Score: ${this.levelState!.score}`,
       gGameConfig.viewport.width / 2,
-      64
+      64,
     );
     ctx.font = gGameConfig.font.family.primary.large;
     ctx.textAlign = "left";
@@ -75,7 +74,7 @@ export class SetHighScore implements State {
       ctx.fillText(
         `${char}`,
         gGameConfig.viewport.width / 2 - 100 + 75 * i,
-        gGameConfig.viewport.height / 2
+        gGameConfig.viewport.height / 2,
       );
     });
 
@@ -85,7 +84,7 @@ export class SetHighScore implements State {
     ctx.fillText(
       `Enter a name!`,
       gGameConfig.viewport.width / 2,
-      gGameConfig.viewport.height / 2 - 128
+      gGameConfig.viewport.height / 2 - 128,
     );
 
     ctx.font = gGameConfig.font.family.primary.small;
@@ -94,7 +93,7 @@ export class SetHighScore implements State {
     ctx.fillText(
       `(Press Enter to Confirm!)`,
       gGameConfig.viewport.width / 2,
-      gGameConfig.viewport.height - 64
+      gGameConfig.viewport.height - 64,
     );
   }
   enter(enterParams: LevelState & { highScoreIndex: number }): void {

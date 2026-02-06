@@ -23,9 +23,9 @@ export class ParticleSystem {
                 const rgb = PALLETE_COLORS[state.color];
                 ctx.fillStyle = `rgb(${rgb[0]},${rgb[1]},${rgb[2]})`;
                 particle.draw(ctx);
-                ctx.globalAlpha = 1;
             });
         });
+        ctx.globalAlpha = 1;
     }
     update(dt) {
         for (let i = 0; i < this.particleStates.length; ++i) {
@@ -41,7 +41,6 @@ export class ParticleSystem {
                 particle.update(dt);
             });
         }
-        this.particleStates.length ? console.log(this.particleStates) : undefined;
     }
     start(color) {
         const particleAnimationState = {

@@ -5,9 +5,13 @@ export class LevelMaker {
     static createLevel(level) {
         const bricks = [];
         // randomly choose the number of rows
-        const numRows = randInt(1, 6);
+        const numRows = gGameConfig.viewport.height < 500 ? randInt(1, 3) : randInt(2, 6);
         // randomly choose the number of columns, ensuring odd
-        let numCols = randInt(7, 13);
+        let numCols = gGameConfig.viewport.width < 400
+            ? randInt(1, 3)
+            : gGameConfig.viewport.width < 1000
+                ? randInt(4, 7)
+                : randInt(7, 13);
         if (numCols % 2 === 0)
             numCols += 1;
         // highest possible spawned brick tier (max 3)
@@ -19,11 +23,6 @@ export class LevelMaker {
         const brickHeight = gGameConfig.viewport.scaler * 16;
         const startX = gGameConfig.viewport.width / 2 - (brickWidth * numCols) / 2;
         const startY = 80;
-        // Responsive design
-        if (startX + brickWidth * numCols > gGameConfig.viewport.width - 64 ||
-            startY + brickHeight * numRows > gGameConfig.viewport.height - 220) {
-            return LevelMaker.createLevel(level);
-        }
         for (let y = 0; y < numRows; y++) {
             const skipPattern = randBool();
             const alternatePattern = randBool();
